@@ -87,8 +87,7 @@
               </div>
             </div>
 
-            <button class="reset-btn">reset</button>
-            <button class="view-log-btn">mood year</button>
+            <button class="settings-btn" title="mood settings">⚙</button>
           </div>
         </div>
       </section>
@@ -188,8 +187,12 @@
   <div id="widget-box" class="widget pink embed-widget">
     <div class="grid" id="mood-grid"></div>
 
-    <button id="reset-button" class="reset-btn">reset</button>
-    <button id="view-log-btn" class="view-log-btn">mood year</button>
+    <button id="settings-button" class="settings-btn" title="mood settings">⚙</button>
+
+<div id="settings-popup" class="settings-popup hidden">
+  <button id="view-log-btn" class="view-log-btn">mood year</button>
+  <button id="reset-button" class="reset-btn">reset week</button>
+</div>
 
     <div id="reset-popup" class="reset-popup hidden">
       <p>reset all moods?</p>
