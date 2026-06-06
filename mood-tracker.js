@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const fontToggle = document.getElementById("fontToggle");
   const fontOptions = document.getElementById("fontOptions");
   const fontChoices = document.querySelectorAll(".font-option");
+  const settingsButton = document.getElementById("settings-button");
+const settingsPopup = document.getElementById("settings-popup");
 
   const resetButton = document.getElementById("reset-button");
   const resetPopup = document.getElementById("reset-popup");
@@ -241,15 +243,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function closeMenus() {
-    moodMenu?.remove();
-    moodMenu = null;
+  moodMenu?.remove();
+  moodMenu = null;
 
-    themeOptions?.classList.add("hidden");
-    fontOptions?.classList.add("hidden");
-    appearanceOptions?.classList.add("hidden");
-    resetPopup?.classList.add("hidden");
-    moodLogPopup?.classList.add("hidden");
-  }
+  themeOptions?.classList.add("hidden");
+  fontOptions?.classList.add("hidden");
+  appearanceOptions?.classList.add("hidden");
+  settingsPopup?.classList.add("hidden");
+  resetPopup?.classList.add("hidden");
+  moodLogPopup?.classList.add("hidden");
+}
 
   function createMoodMenu(cell, key) {
     closeMenus();
@@ -361,7 +364,15 @@ document.addEventListener("DOMContentLoaded", () => {
       fontOptions?.classList.add("hidden");
     });
   });
+settingsButton?.addEventListener("click", (e) => {
+  e.stopPropagation();
 
+  settingsPopup?.classList.toggle("hidden");
+
+  themeOptions?.classList.add("hidden");
+  fontOptions?.classList.add("hidden");
+  appearanceOptions?.classList.add("hidden");
+});
   resetButton?.addEventListener("click", (e) => {
     e.stopPropagation();
     resetPopup?.classList.remove("hidden");
@@ -412,7 +423,8 @@ document.addEventListener("DOMContentLoaded", () => {
       logEntriesDiv.appendChild(cell);
     }
 
-    moodLogPopup.classList.remove("hidden");
+    settingsPopup?.classList.add("hidden");
+moodLogPopup.classList.remove("hidden");
   });
 
   closeLogBtn?.addEventListener("click", (e) => {
