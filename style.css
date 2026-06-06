@@ -356,13 +356,17 @@ body::before {
 
 #log-entries {
   display: grid;
-  grid-template-columns: repeat(18, 8px);
-  justify-content: center;
-  align-content: start;
+
+  grid-template-columns: repeat(26, 1fr);
+
   gap: 3px;
+
+  width: 100%;
+
   padding: 8px;
+
   overflow-y: auto;
-  max-height: 180px;
+
   flex: 1;
 }
 
