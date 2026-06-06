@@ -333,12 +333,6 @@ body::before {
   padding: 14px;
 }
 
-.log-popup {
-  width: calc(100% - 24px);
-  height: calc(100% - 24px);
-  max-width: none;
-  max-height: none;
-}
 
 .reset-popup p,
 .log-popup h3 {
@@ -354,30 +348,6 @@ body::before {
   margin-top: 10px;
 }
 
-#log-entries {
-  display: grid;
-  grid-template-columns: repeat(18, 1fr);
-  gap: 4px;
-
-  width: 100%;
-  flex: 1;
-
-  padding: 6px;
-  box-sizing: border-box;
-
-  overflow-y: auto;
-}
-
-.year-cell {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-
-  min-width: 7px;
-  min-height: 7px;
-
-  border-radius: 3px;
-  background: #bde5d2;
-}
 
 .year-cell:hover {
   transform: scale(1.4);
@@ -956,11 +926,8 @@ html.embed-mode .embed-widget {
   z-index: 250;
 }
 
-.log-popup {
-  width: calc(100% - 24px);
-  height: calc(100% - 24px);
-  max-width: none;
-  max-height: none;
+ettings-popup.hidden {
+  display: none !important;
 }
 
 .log-popup {
@@ -968,12 +935,63 @@ html.embed-mode .embed-widget {
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
 
-  width: calc(100% - 20px) !important;
-  height: 220px !important;
-  max-height: 240px !important;
+  width: 285px !important;
+  height: 185px !important;
 
-  margin: 0 !important;
+  padding: 12px !important;
+  box-sizing: border-box !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px;
+
+  border-radius: 18px !important;
+  overflow: hidden !important;
+
+  background:
+    linear-gradient(rgba(255,255,255,0.94), rgba(255,255,255,0.94)),
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 17px,
+      rgba(199,120,157,0.12) 18px
+    ) !important;
 }
-.settings-popup.hidden {
-  display: none !important;
+
+.log-popup h3 {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  margin: 0;
+  opacity: 0.7;
+}
+
+#log-entries {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  gap: 3px;
+
+  width: 100%;
+  flex: 1;
+
+  padding: 4px;
+  box-sizing: border-box;
+
+  overflow-y: auto;
+}
+
+.year-cell {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  min-width: 0;
+  min-height: 0;
+
+  border-radius: 3px;
+  background: #f2f2f2;
+}
+
+#close-log-btn {
+  align-self: center;
+  padding: 5px 12px;
+  font-size: 10px;
 }
