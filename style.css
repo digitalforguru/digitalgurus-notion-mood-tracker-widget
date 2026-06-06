@@ -1005,3 +1005,14 @@ settings-popup.hidden {
 .settings-popup.hidden {
   display: none !important;
 }
+.widget {
+  min-height: unset;
+  height: fit-content;
+}
+
+html.embed-mode,
+html.embed-mode body,
+html.embed-mode .embed-widget {
+  height: fit-content !important;
+  min-height: unset !important;
+}
