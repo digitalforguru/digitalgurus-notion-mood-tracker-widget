@@ -964,11 +964,16 @@ html.embed-mode .embed-widget {
 }
 
 .log-popup {
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+
   width: calc(100% - 20px) !important;
   height: 220px !important;
   max-height: 240px !important;
-}
 
+  margin: 0 !important;
+}
 .settings-popup.hidden {
   display: none !important;
 }
