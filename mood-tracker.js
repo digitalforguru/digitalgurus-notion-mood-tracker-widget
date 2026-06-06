@@ -428,9 +428,11 @@ moodLogPopup.classList.remove("hidden");
   });
 
   closeLogBtn?.addEventListener("click", (e) => {
-    e.stopPropagation();
-    moodLogPopup?.classList.add("hidden");
-  });
+  e.preventDefault();
+  e.stopPropagation();
+
+  moodLogPopup?.classList.add("hidden");
+});
 
   copyBtn?.addEventListener("click", async (e) => {
     e.stopPropagation();
@@ -455,11 +457,28 @@ moodLogPopup.classList.remove("hidden");
     }, 1500);
   });
 
-  document.addEventListener("click", closeMenus);
+ document.addEventListener("click", (e) => {
+  const clickedInsideSettings = settingsPopup?.contains(e.target);
+  const clickedInsideLog = moodLogPopup?.contains(e.target);
+  const clickedInsideReset = resetPopup?.contains(e.target);
+  const clickedInsideMoodMenu = moodMenu?.contains(e.target);
 
-  applyTheme(state.theme);
-  applyFont(state.font);
-  applyAppearance(state.appearance);
-  buildGrid();
-  loadMoodLog();
+  if (
+    clickedInsideSettings ||
+    clickedInsideLog ||
+    clickedInsideReset ||
+    clickedInsideMoodMenu
+  ) {
+    return;
+  }
+
+  closeMenus();
 });
+
+applyTheme(state.theme);
+applyFont(state.font);
+applyAppearance(state.appearance);
+buildGrid();
+loadMoodLog();
+});
+
