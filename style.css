@@ -926,7 +926,7 @@ html.embed-mode .embed-widget {
   z-index: 250;
 }
 
-settings-popup.hidden {
+.settings-popup.hidden {
   display: none !important;
 }
 .log-popup {
@@ -1004,4 +1004,28 @@ settings-popup.hidden {
 .reset-popup.hidden,
 .settings-popup.hidden {
   display: none !important;
+}
+
+.settings-btn {
+  width: 18px !important;
+  height: 6px !important;
+  min-width: 18px !important;
+  min-height: 6px !important;
+
+  padding: 0 !important;
+  margin: 0 auto !important;
+
+  border-radius: 999px !important;
+  line-height: 0 !important;
+  font-size: 0 !important;
+
+  box-shadow: none !important;
+}
+
+.widget {
+  gap: 3px;
+}
+
+.grid {
+  margin-bottom: 0;
 }
