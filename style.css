@@ -334,13 +334,10 @@ body::before {
 }
 
 .log-popup {
-  transform: translate(-50%, -50%);
-  width: 260px;
-  height: 220px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  width: calc(100% - 24px);
+  height: calc(100% - 24px);
+  max-width: none;
+  max-height: none;
 }
 
 .reset-popup p,
@@ -939,4 +936,23 @@ html.embed-mode .embed-widget {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.settings-popup {
+  z-index: 100;
+}
+
+.reset-popup {
+  z-index: 300;
+}
+
+.log-popup {
+  z-index: 250;
+}
+
+.log-popup {
+  width: calc(100% - 24px);
+  height: calc(100% - 24px);
+  max-width: none;
+  max-height: none;
 }
