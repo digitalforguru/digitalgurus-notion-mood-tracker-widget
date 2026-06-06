@@ -8,104 +8,204 @@
 </head>
 
 <body>
+  <main class="builder-page">
+    <section class="builder-ui">
 
+      <header class="builder-nav">
+        <a href="https://digitalforguru.github.io/digitalguru-notion-widget-claim-hub/" class="back-link">← back to studio</a>
+        <span class="status-pill">mood tracker</span>
+      </header>
 
-<div class="builder-ui">
+      <section class="hero-card">
+        <p class="eyebrow">digitalguru widget setup</p>
+        <h1>Mood Tracker Widget</h1>
+        <p class="hero-subtitle">
+          track your weekly moods inside Notion with a soft interactive mood board, saved entries, themes, fonts, and background modes.
+        </p>
+      </section>
 
-   <div class="widget-header">
-    DigitalGuru's Notion Mood Tracker Widget
-  </div>
+      <section class="guide-grid">
+        <div class="info-card">
+          <p class="section-label">quick start</p>
+          <h2>How to use it?</h2>
+          <ol>
+            <li>Choose your theme, background, and font.</li>
+            <li>Copy your embed link.</li>
+            <li>Paste it into Notion using <strong>/embed</strong>.</li>
+          </ol>
+        </div>
 
-    <!-- THEME OPTIONS -->
-  <div id="themeOptions" class="theme-options hidden">
-    <div class="theme-circle pink" data-theme="pink"></div>
-    <div class="theme-circle green" data-theme="green"></div>
-    <div class="theme-circle beige" data-theme="beige"></div>
-    <div class="theme-circle blue" data-theme="blue"></div>
-    <div class="theme-circle black" data-theme="black"></div>
-    <div class="theme-circle white" data-theme="white"></div>
-  </div>
+        <div class="info-card">
+          <p class="section-label">dashboard tip</p>
+          <h2>Best placement</h2>
+          <p>This widget looks cutest near a wellness dashboard, journal page, habit tracker, or weekly reset section.</p>
+        </div>
+      </section>
 
-  <!-- FONT OPTIONS -->
-  <div id="fontOptions" class="theme-options hidden">
-    <div class="font-option" data-font="default">default</div>
-    <div class="font-option" data-font="serif">serif</div>
-    <div class="font-option" data-font="mono">mono</div>
-  </div>
+      <section class="preview-card">
+        <div class="section-heading">
+          <p class="section-label">live preview</p>
+          <h2>See your mood tracker before copying</h2>
+        </div>
 
+        <div class="preview-frame">
+          <div id="previewWidget" class="widget pink">
+            <div class="grid preview-grid">
+              <div class="day-cell">
+                <div class="day-label">sun <span class="day-date">1</span></div>
+                <div class="day-content preview-mood good">good</div>
+              </div>
 
-<div id="usageTip" class="usage-tip">
-    Welcome to your Notion widget by DigitalGuru!<br>
-    track your moods weekly with our layout built for Notion<br>
-    - click options to customize (all options match Notion pages, eg; colors, fonts)<br>
-    - copy your embed link<br>
-    - paste into Notion ✧
-  </div>
+              <div class="day-cell">
+                <div class="day-label">mon <span class="day-date">2</span></div>
+                <div class="day-content preview-mood calm">calm</div>
+              </div>
 
-  <!-- CONTROLS -->
-  <div class="top-left-controls">
-    <div id="themeToggle" class="btn theme-toggle-btn"></div>
-    <div id="fontToggle" class="btn">Aa</div>
+              <div class="day-cell">
+                <div class="day-label">tue <span class="day-date">3</span></div>
+                <div class="day-content preview-mood loved">loved</div>
+              </div>
 
-  </div>
+              <div class="day-cell">
+                <div class="day-label">wed <span class="day-date">4</span></div>
+                <div class="day-content preview-mood rough">rough</div>
+              </div>
 
-  <!-- COPY BUTTON -->
-  <div class="setup-area">
-    <button id="copyLinkBtn" class="copy-btn">
-      copy my embed Notion link .ᐟ.ᐟ
-    </button>
+              <div class="day-cell">
+                <div class="day-label">thu <span class="day-date">5</span></div>
+                <div class="day-content preview-mood social">social</div>
+              </div>
 
-    <p id="copyMessage" class="copy-message hidden">
-      copied! paste into notion .ᐟ.ᐟ
-    </p>
-  </div>
+              <div class="day-cell">
+                <div class="day-label">fri <span class="day-date">6</span></div>
+                <div class="day-content preview-mood awesome">awesome</div>
+              </div>
 
- <div class="footer-links">
-    <a href="https://stan.store/digitalforguru" target="_blank" class="footer-link">
-      shop digitalguru
-    </a>
+              <div class="day-cell">
+                <div class="day-label">sat <span class="day-date">7</span></div>
+                <div class="day-content preview-mood empty">+</div>
+              </div>
+            </div>
 
-    <span class="divider">•</span>
+            <button class="reset-btn">reset</button>
+            <button class="view-log-btn">mood year</button>
+          </div>
+        </div>
+      </section>
 
-    <a href="https://tiktok.com/@digitaluru" target="_blank" class="footer-link">
-      socials
-    </a>
-  </div>
+      <section class="customize-card">
+        <div class="section-heading">
+          <p class="section-label">customize</p>
+          <h2>Make it match your dashboard</h2>
+        </div>
 
-</div>
-  
-<div id="widget-box" class="widget pink">
-  
- <div class="widget-header-title">my weekly moods ✧</div>
+        <div class="control-panel">
+          <div class="top-left-controls">
+            <div id="themeToggle" class="btn theme-toggle-btn" title="select theme"></div>
+            <div id="appearanceToggle" class="btn appearance-toggle-btn" title="background">bg</div>
+            <div id="fontToggle" class="btn font-toggle-btn" title="font">Aa</div>
+          </div>
 
-  <div class="grid" id="mood-grid"></div>
+          <div id="themeOptions" class="theme-options hidden">
+            <div class="theme-circle pink" data-theme="pink"></div>
+            <div class="theme-circle beige" data-theme="beige"></div>
+            <div class="theme-circle blue" data-theme="blue"></div>
+            <div class="theme-circle green" data-theme="green"></div>
+            <div class="theme-circle black" data-theme="black"></div>
+            <div class="theme-circle white" data-theme="white"></div>
+          </div>
 
-  <button id="reset-button" class="reset-btn">reset</button>
-  <button id="view-log-btn" class="view-log-btn">view log</button>
+          <div id="appearanceOptions" class="theme-options hidden appearance-options">
+            <div class="appearance-option" data-appearance="light">light</div>
+            <div class="appearance-option" data-appearance="dark">dark</div>
+            <div class="appearance-option" data-appearance="system">system</div>
+          </div>
 
-  <!-- RESET POPUP -->
-  <div id="reset-popup" class="reset-popup hidden">
-    <p>reset all moods?</p>
-    <div class="reset-actions">
-      <button id="confirm-reset">yes</button>
-      <button id="cancel-reset">no</button>
+          <div id="fontOptions" class="theme-options hidden">
+            <div class="font-option" data-font="default">default</div>
+            <div class="font-option" data-font="serif">serif</div>
+            <div class="font-option" data-font="mono">mono</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="setup-card">
+        <div class="section-heading">
+          <p class="section-label">embed</p>
+          <h2>Copy your Notion link</h2>
+        </div>
+
+        <button id="copyLinkBtn" class="copy-btn">
+          copy my embed Notion link .ᐟ.ᐟ
+        </button>
+
+        <p id="copyMessage" class="copy-message hidden">
+          copied! paste into Notion .ᐟ.ᐟ
+        </p>
+      </section>
+
+      <section class="faq-card">
+        <p class="section-label">help</p>
+        <h2>FAQ</h2>
+
+        <details>
+          <summary>How do I add this to Notion?</summary>
+          <p>Copy your embed link, go to Notion, type /embed, paste the link, and confirm!</p>
+        </details>
+
+        <details>
+          <summary>Does it save my moods?</summary>
+          <p>Yes! This mood tracker saves your mood entries so your weekly mood board stays connected.</p>
+        </details>
+
+        <details>
+          <summary>Can I reset or view my mood log?</summary>
+          <p>Yes! Use reset to clear the week or mood year to view your saved yearly mood log.</p>
+        </details>
+      </section>
+
+      <section class="updates-card">
+        <p class="section-label">recent updates</p>
+        <h2>Mood Tracker Widget v1.0</h2>
+        <ul>
+          <li>Added weekly mood tracking.</li>
+          <li>Added mood year log view.</li>
+          <li>Added matching Notion-style themes, fonts, and background modes.</li>
+        </ul>
+      </section>
+
+      <footer class="footer-links">
+        <a href="https://digitalforguru.github.io/digitalguru-notion-widget-claim-hub/" class="footer-link">Back to Widget Studio</a>
+        <span class="divider">•</span>
+        <a href="https://stan.store/digitalforguru" target="_blank" class="footer-link">shop digitalguru</a>
+        <span class="divider">•</span>
+        <a href="https://tiktok.com/@digitaluru" target="_blank" class="footer-link">TikTok</a>
+      </footer>
+
+    </section>
+  </main>
+
+  <div id="widget-box" class="widget pink embed-widget">
+    <div class="grid" id="mood-grid"></div>
+
+    <button id="reset-button" class="reset-btn">reset</button>
+    <button id="view-log-btn" class="view-log-btn">mood year</button>
+
+    <div id="reset-popup" class="reset-popup hidden">
+      <p>reset all moods?</p>
+      <div class="reset-actions">
+        <button id="confirm-reset">yes</button>
+        <button id="cancel-reset">no</button>
+      </div>
+    </div>
+
+    <div id="mood-log-popup" class="log-popup hidden">
+      <h3>mood year</h3>
+      <div id="log-entries" class="year-grid"></div>
+      <button id="close-log-btn">close</button>
     </div>
   </div>
 
-  
-<div id="mood-log-popup" class="log-popup hidden">
-
-  <h3>mood year</h3>
-
-  <div id="log-entries" class="year-grid"></div>
-
-  <button id="close-log-btn">close</button>
-</div>
-
-    </div>
-
-
-<script type="module" src="mood-tracker.js"></script>
-  
+  <script type="module" src="mood-tracker.js"></script>
 </body>
 </html>
