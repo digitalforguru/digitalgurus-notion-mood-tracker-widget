@@ -6,15 +6,17 @@ const supabase = createClient(
 );
 
 document.addEventListener("DOMContentLoaded", () => {
-  /* =========================
-     ELEMENTS
-  ========================= */
   const widgetBox = document.getElementById("widget-box");
+  const previewWidget = document.getElementById("previewWidget");
   const grid = document.getElementById("mood-grid");
 
   const themeToggle = document.getElementById("themeToggle");
   const themeOptions = document.getElementById("themeOptions");
   const themeCircles = document.querySelectorAll(".theme-circle");
+
+  const appearanceToggle = document.getElementById("appearanceToggle");
+  const appearanceOptions = document.getElementById("appearanceOptions");
+  const appearanceChoices = document.querySelectorAll(".appearance-option");
 
   const fontToggle = document.getElementById("fontToggle");
   const fontOptions = document.getElementById("fontOptions");
@@ -33,33 +35,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const copyBtn = document.getElementById("copyLinkBtn");
   const copyMsg = document.getElementById("copyMessage");
 
-  /* =========================
-     URL STATE
-  ========================= */
   const params = new URLSearchParams(window.location.search);
+  const isEmbed = params.get("embed") === "true";
+
+  if (isEmbed) {
+    document.documentElement.classList.add("embed-mode");
+  }
 
   const state = {
-    theme: params.get("theme") || "pink",
-    font: params.get("font") || "default",
-    embed: params.get("embed") === "true"
+    theme: params.get("theme") || localStorage.getItem("moodTheme") || "pink",
+    font: params.get("font") || localStorage.getItem("moodFont") || "default",
+    appearance:
+      params.get("appearance") ||
+      localStorage.getItem("moodAppearance") ||
+      "system",
   };
 
   const widgetId =
     params.get("id") ||
     (crypto.randomUUID ? crypto.randomUUID() : `mood-${Date.now()}`);
 
-  if (state.embed) {
-    document.querySelector(".builder-ui")?.style.setProperty("display", "none");
-  }
-
-  /* =========================
-     DATA
-  ========================= */
-  const themes = {
+  const themeColors = {
     pink: "#f4dfeb",
     green: "#ddedea",
     beige: "#faebdd",
-    blue: "#ddebf1"
+    blue: "#ddebf1",
+    black: "#17171a",
+    white: "#f8f6f3",
   };
 
   const moods = [
@@ -70,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { color: "#93B0AC", label: "social" },
     { color: "#DCC3B4", label: "hectic" },
     { color: "#E7D9CC", label: "meh" },
-    { color: "#FFA5C5", label: "awesome" }
+    { color: "#FFA5C5", label: "awesome" },
   ];
 
   const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
@@ -78,38 +80,71 @@ document.addEventListener("DOMContentLoaded", () => {
   let moodLog = {};
   let moodMenu = null;
 
-  /* =========================
-     THEME APPLY
-  ========================= */
-  function applyTheme(theme) {
-    if (!widgetBox) return;
-
-    widgetBox.classList.remove("pink", "green", "beige", "blue", "black", "white");
-    widgetBox.classList.add(theme);
-
-    state.theme = theme;
+  function saveState() {
+    localStorage.setItem("moodTheme", state.theme);
+    localStorage.setItem("moodFont", state.font);
+    localStorage.setItem("moodAppearance", state.appearance);
   }
 
-  /* =========================
-     FONT APPLY
-  ========================= */
+  function updateBothWidgets(callback) {
+    [widgetBox, previewWidget].forEach((widget) => {
+      if (widget) callback(widget);
+    });
+  }
+
+  function applyTheme(theme) {
+    state.theme = theme || "pink";
+
+    updateBothWidgets((widget) => {
+      widget.classList.remove("pink", "green", "beige", "blue", "black", "white");
+      widget.classList.add(state.theme);
+    });
+
+    if (themeToggle) {
+      themeToggle.style.setProperty(
+        "--theme-color",
+        themeColors[state.theme] || themeColors.pink
+      );
+      themeToggle.style.backgroundColor =
+        themeColors[state.theme] || themeColors.pink;
+    }
+
+    saveState();
+  }
+
   function applyFont(font) {
-    if (!widgetBox) return;
+    state.font = font || "default";
 
     const fontFamily =
-      font === "serif"
+      state.font === "serif"
         ? "Georgia, serif"
-        : font === "mono"
+        : state.font === "mono"
         ? "ui-monospace, SFMono-Regular, Menlo, monospace"
-        : "'Satoshi', sans-serif";
+        : "'Satoshi', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 
-    widgetBox.style.fontFamily = fontFamily;
-    state.font = font;
+    updateBothWidgets((widget) => {
+      widget.classList.remove("font-default", "font-serif", "font-mono");
+      widget.classList.add(`font-${state.font}`);
+      widget.style.fontFamily = fontFamily;
+    });
+
+    saveState();
   }
 
-  /* =========================
-     SUPABASE LOAD
-  ========================= */
+  function applyAppearance(appearance) {
+    state.appearance = appearance || "system";
+
+    document.body.classList.remove(
+      "appearance-light",
+      "appearance-dark",
+      "appearance-system"
+    );
+
+    document.body.classList.add(`appearance-${state.appearance}`);
+
+    saveState();
+  }
+
   async function loadMoodLog() {
     const { data, error } = await supabase
       .from("mood_logs")
@@ -128,9 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =========================
-     SUPABASE SAVE
-  ========================= */
   async function saveMood(key, mood) {
     moodLog[key] = mood;
 
@@ -139,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .upsert({
         id: widgetId,
         data: moodLog,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       });
 
     if (error) {
@@ -155,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .upsert({
         id: widgetId,
         data: moodLog,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       });
 
     if (error) {
@@ -165,9 +197,6 @@ document.addEventListener("DOMContentLoaded", () => {
     buildGrid();
   }
 
-  /* =========================
-     WEEK BUILDER
-  ========================= */
   function getWeekDates() {
     const today = new Date();
     const start = new Date(today);
@@ -182,14 +211,11 @@ document.addEventListener("DOMContentLoaded", () => {
       return {
         day: days[i],
         key: d.toISOString().split("T")[0],
-        date: d.getDate()
+        date: d.getDate(),
       };
     });
   }
 
-  /* =========================
-     RENDER CELL
-  ========================= */
   function renderCell(cell, mood) {
     if (!cell) return;
 
@@ -214,22 +240,17 @@ document.addEventListener("DOMContentLoaded", () => {
     content.appendChild(label);
   }
 
-  /* =========================
-     CLOSE MENUS
-  ========================= */
   function closeMenus() {
     moodMenu?.remove();
     moodMenu = null;
 
     themeOptions?.classList.add("hidden");
     fontOptions?.classList.add("hidden");
+    appearanceOptions?.classList.add("hidden");
     resetPopup?.classList.add("hidden");
     moodLogPopup?.classList.add("hidden");
   }
 
-  /* =========================
-     MOOD MENU
-  ========================= */
   function createMoodMenu(cell, key) {
     closeMenus();
 
@@ -260,9 +281,6 @@ document.addEventListener("DOMContentLoaded", () => {
     widgetBox.appendChild(moodMenu);
   }
 
-  /* =========================
-     BUILD GRID
-  ========================= */
   function buildGrid() {
     if (!grid) return;
 
@@ -293,47 +311,57 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* =========================
-     THEME UI
-  ========================= */
   themeToggle?.addEventListener("click", (e) => {
     e.stopPropagation();
+
     themeOptions?.classList.toggle("hidden");
+    fontOptions?.classList.add("hidden");
+    appearanceOptions?.classList.add("hidden");
   });
 
   themeCircles.forEach((circle) => {
     circle.addEventListener("click", (e) => {
       e.stopPropagation();
 
-      const theme = circle.dataset.theme;
-      applyTheme(theme);
-
+      applyTheme(circle.dataset.theme);
       themeOptions?.classList.add("hidden");
     });
   });
 
-  /* =========================
-     FONT UI
-  ========================= */
+  appearanceToggle?.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    appearanceOptions?.classList.toggle("hidden");
+    themeOptions?.classList.add("hidden");
+    fontOptions?.classList.add("hidden");
+  });
+
+  appearanceChoices.forEach((option) => {
+    option.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      applyAppearance(option.dataset.appearance);
+      appearanceOptions?.classList.add("hidden");
+    });
+  });
+
   fontToggle?.addEventListener("click", (e) => {
     e.stopPropagation();
+
     fontOptions?.classList.toggle("hidden");
+    themeOptions?.classList.add("hidden");
+    appearanceOptions?.classList.add("hidden");
   });
 
   fontChoices.forEach((option) => {
     option.addEventListener("click", (e) => {
       e.stopPropagation();
 
-      const font = option.dataset.font;
-      applyFont(font);
-
+      applyFont(option.dataset.font);
       fontOptions?.classList.add("hidden");
     });
   });
 
-  /* =========================
-     RESET
-  ========================= */
   resetButton?.addEventListener("click", (e) => {
     e.stopPropagation();
     resetPopup?.classList.remove("hidden");
@@ -352,9 +380,6 @@ document.addEventListener("DOMContentLoaded", () => {
     resetPopup?.classList.add("hidden");
   });
 
-  /* =========================
-     VIEW LOG
-  ========================= */
   viewLogBtn?.addEventListener("click", (e) => {
     e.stopPropagation();
 
@@ -395,9 +420,6 @@ document.addEventListener("DOMContentLoaded", () => {
     moodLogPopup?.classList.add("hidden");
   });
 
-  /* =========================
-     COPY LINK
-  ========================= */
   copyBtn?.addEventListener("click", async (e) => {
     e.stopPropagation();
 
@@ -406,6 +428,7 @@ document.addEventListener("DOMContentLoaded", () => {
       `?id=${encodeURIComponent(widgetId)}` +
       `&theme=${encodeURIComponent(state.theme)}` +
       `&font=${encodeURIComponent(state.font)}` +
+      `&appearance=${encodeURIComponent(state.appearance)}` +
       `&embed=true`;
 
     await navigator.clipboard.writeText(url);
@@ -420,16 +443,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1500);
   });
 
-  /* =========================
-     GLOBAL CLOSE
-  ========================= */
   document.addEventListener("click", closeMenus);
 
-  /* =========================
-     INIT
-  ========================= */
   applyTheme(state.theme);
   applyFont(state.font);
+  applyAppearance(state.appearance);
   buildGrid();
   loadMoodLog();
 });
